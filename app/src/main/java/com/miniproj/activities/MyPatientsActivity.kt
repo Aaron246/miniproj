@@ -3,6 +3,7 @@ package com.miniproj.activities
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,14 @@ class MyPatientsActivity : BaseActivity() {
         setContentView(binding.root)
 
         patientListFirestore = ArrayList()
-        fSetupRV()
+        FirebaseFirestore.getInstance().collection(Constants.PATIENT_LIST).document(getCurrentUserID())
+            .get().addOnSuccessListener {
+                if (it.exists()){
+                    binding.textView.visibility = View.GONE
+                    binding.rvPatientList.visibility = View.VISIBLE
+                    fSetupRV()
+                }
+            }
 
         binding.btnAddPatient.setOnClickListener {
             val addPatientDialog = Dialog(this, R.style.ThemeOverlay_AppCompat_Dialog)
@@ -50,6 +58,8 @@ class MyPatientsActivity : BaseActivity() {
                             )
                             FirebaseFirestore.getInstance().collection(Constants.PATIENT_LIST).document(getCurrentUserID())
                                 .set(list, SetOptions.merge()).addOnSuccessListener {
+                                    binding.textView.visibility = View.GONE
+                                    binding.rvPatientList.visibility = View.VISIBLE
                                     fSetupRV()
                                     showToast("patient added successfully")
                                 }.addOnFailureListener {
@@ -81,7 +91,7 @@ class MyPatientsActivity : BaseActivity() {
         patientAdapter = ItemAdapter(list)
         binding.rvPatientList.adapter = patientAdapter
         patientAdapter.onItemClick = {
-            val intent = Intent(this, RecordBlockActivity::class.java)
+            val intent = Intent(this, RecordActivity::class.java)
             intent.putExtra("patient", it)
             startActivity(intent)
         }

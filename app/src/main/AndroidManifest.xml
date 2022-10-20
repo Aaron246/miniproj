@@ -10,10 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Miniproj">
         <activity
-            android:name=".activities.RecordBlockActivity"
+            android:name=".activities.DetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Miniproj.NoActionBar"/>
+        <activity
+            android:name=".activities.RecordActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Miniproj.NoActionBar" />
+        <activity
+            android:name=".activities.RecordBlockActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Miniproj.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.MyPatientsActivity"
             android:exported="true"
