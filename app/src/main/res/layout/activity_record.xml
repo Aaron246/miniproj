@@ -24,7 +24,7 @@
                 android:id="@+id/rv_records_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvNoRecord"
@@ -33,7 +33,7 @@
                 android:gravity="center"
                 android:text="No records are available"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>

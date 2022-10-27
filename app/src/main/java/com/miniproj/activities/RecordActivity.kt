@@ -13,6 +13,7 @@ import com.google.firebase.firestore.SetOptions
 import com.miniproj.R
 import com.miniproj.adapter.RecordAdapter
 import com.miniproj.databinding.ActivityRecordBinding
+import com.miniproj.model.Patient
 import com.miniproj.utils.Constants
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,13 +28,17 @@ class RecordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val patientName = intent.getStringExtra("patient")!!
+
         list = ArrayList()
         FirebaseFirestore.getInstance().collection(Constants.DATE_LIST).document(getCurrentUserID())
             .get().addOnSuccessListener {
                 if (it.exists()){
-                    binding.tvNoRecord.visibility = View.GONE
-                    binding.rvRecordsList.visibility = View.VISIBLE
-                    fSetupRV()
+                    if (it.get(patientName) != null) {
+                        binding.tvNoRecord.visibility = View.GONE
+                        binding.rvRecordsList.visibility = View.VISIBLE
+                        fSetupRV()
+                    }
                 }
             }
 
@@ -41,7 +46,7 @@ class RecordActivity : BaseActivity() {
             binding.tvNoRecord.visibility = View.GONE
             binding.rvRecordsList.visibility = View.VISIBLE
 
-            var cal = Calendar.getInstance()
+            val cal = Calendar.getInstance()
 
             val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 cal.set(Calendar.YEAR, year)
@@ -53,18 +58,39 @@ class RecordActivity : BaseActivity() {
                 FirebaseFirestore.getInstance().collection(Constants.DATE_LIST).document(getCurrentUserID())
                     .get().addOnSuccessListener {
                         if (it.exists()){
-                            FirebaseFirestore.getInstance().collection(Constants.DATE_LIST).document(getCurrentUserID())
-                                .update(Constants.DATE_LIST, FieldValue.arrayUnion(sdf.format(cal.time))).addOnSuccessListener {
-                                    fSetupRV()
-                                    showToast("date added successfully")
-                                }.addOnFailureListener {
-                                    showToast("failed")
-                                }
+                            if(it.get(patientName) != null) {
+                                FirebaseFirestore.getInstance().collection(Constants.DATE_LIST)
+                                    .document(getCurrentUserID())
+                                    .update(
+                                        patientName,
+                                        FieldValue.arrayUnion(sdf.format(cal.time))
+                                    ).addOnSuccessListener {
+                                        fSetupRV()
+                                        showToast("date added successfully")
+                                    }.addOnFailureListener {
+                                        showToast("failed")
+                                    }
+                            }else{
+                                val array: ArrayList<String> = ArrayList()
+                                array.add(sdf.format(cal.time))
+                                val list = hashMapOf(
+                                    patientName to array
+                                )
+                                FirebaseFirestore.getInstance().collection(Constants.DATE_LIST).document(getCurrentUserID())
+                                    .set(list, SetOptions.merge()).addOnSuccessListener {
+                                        binding.tvNoRecord.visibility = View.GONE
+                                        binding.rvRecordsList.visibility = View.VISIBLE
+                                        fSetupRV()
+                                        showToast("date added successfully")
+                                    }.addOnFailureListener {
+                                        showToast("failed")
+                                    }
+                            }
                         }else{
                             val array: ArrayList<String> = ArrayList()
                             array.add(sdf.format(cal.time))
                             val list = hashMapOf(
-                                Constants.DATE_LIST to array
+                                patientName to array
                             )
                             FirebaseFirestore.getInstance().collection(Constants.DATE_LIST).document(getCurrentUserID())
                                 .set(list, SetOptions.merge()).addOnSuccessListener {
@@ -88,14 +114,16 @@ class RecordActivity : BaseActivity() {
     }
 
     private fun fSetupRV(){
+        val patientName = intent.getStringExtra("patient")!!
         FirebaseFirestore.getInstance().collection(Constants.DATE_LIST).document(getCurrentUserID())
             .get().addOnSuccessListener {
-                list = it.get(Constants.DATE_LIST) as ArrayList<String>
+                list = it.get(patientName) as ArrayList<String>
                 setupRV(list)
             }
     }
 
     private fun setupRV(list: ArrayList<String>){
+        val patientName = intent.getStringExtra("patient")!!
         binding.rvRecordsList.setHasFixedSize(true)
         binding.rvRecordsList.layoutManager = LinearLayoutManager(this)
         list.reverse()
@@ -104,6 +132,7 @@ class RecordActivity : BaseActivity() {
         recordAdapter.onItemClick = {
             val intent = Intent(this, DetailsActivity::class.java)
             intent.putExtra("date", it)
+            intent.putExtra("patient", patientName)
             startActivity(intent)
         }
     }

@@ -22,7 +22,7 @@ class RecordBlockActivity : AppCompatActivity() {
         list = ArrayList()
 
         binding.btnAddRecord.setOnClickListener {
-            list.add(RecordBlock("","",0,"","","",""))
+            //list.add(RecordBlock("","",0,"","","",""))
             binding.tvNoBlocks.visibility = View.GONE
             binding.rvRecordBlocks.visibility = View.VISIBLE
 

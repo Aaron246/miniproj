@@ -1,8 +1,10 @@
 package com.miniproj.firebase
 
+import android.app.Activity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.miniproj.activities.BaseActivity
+import com.miniproj.activities.DetailsActivity
 import com.miniproj.activities.SignInActivity
 import com.miniproj.activities.SignUpActivity
 import com.miniproj.model.User

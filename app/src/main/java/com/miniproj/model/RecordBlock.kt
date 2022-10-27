@@ -5,15 +5,17 @@ import android.os.Parcelable
 import java.util.*
 
 data class RecordBlock(
-    val dateOfVisit: String,
-    val name: String,
-    val age: Int,
-    val gender: String,
-    val diagnosis: String,
-    val prescribedMeds: String,
-    val nextDate: String
+    val doctorName: String = "",
+    val dateOfVisit: String = "",
+    val name: String = "",
+    val age: Int = 0,
+    val gender: String = "",
+    val diagnosis: String = "",
+    val prescribedMeds: String = "",
+    val nextDate: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readInt(),
@@ -21,10 +23,10 @@ data class RecordBlock(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(doctorName)
         parcel.writeString(dateOfVisit)
         parcel.writeString(name)
         parcel.writeInt(age)

@@ -9,7 +9,7 @@
     tools:context=".activities.PatientActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_add_record"
+        android:id="@+id/btn_show_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="view a record"/>
@@ -18,7 +18,8 @@
         android:id="@+id/btn_my_saved_records"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="my saved records"/>
+        android:text="my saved records"
+        android:visibility="gone"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_patient_logout"
