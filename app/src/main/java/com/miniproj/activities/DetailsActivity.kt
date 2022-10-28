@@ -121,7 +121,7 @@ class DetailsActivity : BaseActivity() {
                     if(block.gender=="male"){
                         binding.cbMale.isChecked = true
                     }else{
-                        binding.cbFemale.isChecked = false
+                        binding.cbFemale.isChecked = true
                     }
                 }
             }.addOnFailureListener { showToast("failed") }

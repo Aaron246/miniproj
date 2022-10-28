@@ -29,26 +29,20 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/btn_add_patient"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constrainedHeight="true"
         app:layout_constraintVertical_chainStyle="packed"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_add_patient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
         android:text="ADD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_patient_list" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

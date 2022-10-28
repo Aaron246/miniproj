@@ -9,7 +9,7 @@
 
     <EditText
         android:id="@+id/et_dialog_patient_name"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Patient's Name"
         android:inputType="textPersonName"
