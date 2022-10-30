@@ -76,6 +76,7 @@ class DetailsActivity : BaseActivity() {
         }
         binding.btnSave.setOnClickListener {
             saveDetails()
+            finish()
         }
         binding.btnShare.setOnClickListener {
             var gender = ""
